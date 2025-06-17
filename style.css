@@ -1,0 +1,432 @@
+*{
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+#user-form,
+#permission-form,
+#connect-form{
+  position: fixed;
+  width: 100vw;
+  height: 100vh;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background-color: #08313b;
+}
+
+#user-form form,
+#permission-form form,
+#connect-form form{
+  display: flex;
+  flex-direction: column;
+  padding: 10px;
+  min-width: 250px;
+  width: 90%;
+  max-width: 500px;
+}
+
+#user-form input,
+#permission-form input,
+#connect-form input{
+  padding: 5px 10px 5px 5px;
+  font-size: 1rem;
+  box-shadow: none;
+  outline: none;
+  border: none;
+  background: #08313b;
+  color: white;
+  border-bottom: 2px solid white;
+  margin-bottom: 20px;
+}
+
+#user-form button,
+#permission-form button,
+#connect-form button{
+  padding: 5px 10px;
+  font-size: 1rem;
+  /* font-family: monospace; */
+  font-family: "Pacifico", cursive, sans-serif;
+  color: #08313b;
+  border-radius: 5px;
+  margin-bottom: 5px;
+  /* width: fit-content; */
+  /* margin-left: auto; */
+  border: none;
+  outline: none;
+  cursor: pointer;
+  border: 1px solid white;
+}
+
+#user-form button:hover,
+#permission-form button:hover,
+#connect-form button:hover
+{
+  background-color: #08313b;
+  border: 1px solid white;
+  color: white;
+}
+
+.form-span{
+  display: block;
+  margin-bottom: 20px;
+  font-size: 1rem;
+  padding: 5px;
+  color: #bdbdbd;
+}
+
+#myID{
+  color: white;
+}
+
+#loader{
+  position: fixed;
+  z-index: 10;
+  background: #4a1753;
+  left: 0;
+  right: 0;
+  top: 0;
+  bottom: 0;
+  width: 100vw;
+  height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+#loader div{
+  width: 80px;
+  height: 80px;
+  border-radius: 50%;
+  border: 20px solid white;
+  border-style: dotted;
+  transform: rotate(360deg);
+  border-top-color: #967c9b;
+  animation: spinner 1s 1s linear infinite;
+}
+
+@keyframes spinner {
+  from{
+    transform: rotate(0deg);
+  }
+  to{
+    transform: rotate(360deg);
+  }
+}
+
+/* fonts */
+.pacifico-regular {
+  font-family: "Pacifico", cursive, sans-serif;
+  font-weight: 400;
+  font-style: normal;
+}
+
+/* Dark backgroung */
+.dark-bg{
+  background-color: #08313b;
+  color: white;  
+}
+
+/* main font of the document */
+.font-main{
+  font-family: "Nunito Sans", sans-serif;
+  font-optical-sizing: auto;
+  font-style: normal;
+}
+
+/* display*/
+.d-none{
+  display: none !important;
+}
+.d-flex{
+  display: flex;
+}
+.fj-center{
+  justify-content: center;
+}
+.fa-center{
+  align-items: center;
+}
+.f-row{
+  flex-direction: row;
+}
+.f-col{
+  flex-direction: column;
+}
+
+.h-100{
+  height: 100%;
+}
+
+.w-100{
+  width: 100%;
+}
+
+.wv-100{
+  max-width: 100vw;
+  min-width: 100%;
+}
+
+.hv-100{
+  min-height: 100vh;
+}
+
+/* animation */
+.drop-text span:nth-child(1){
+  display: inline-block;
+  transform: translateY(-200px);
+  opacity: 0;
+  animation: drop 0.3s forwards;
+}
+.drop-text span:nth-child(2){
+  display: inline-block;
+  transform: translateY(-200px);
+  opacity: 0;
+  animation: drop 0.6s forwards;
+}
+.drop-text span:nth-child(3){
+  display: inline-block;
+  transform: translateY(-200px);
+  opacity: 0;
+  animation: drop 0.9s forwards;
+}
+.drop-text span:nth-child(4){
+  display: inline-block;
+  transform: translateY(-200px);
+  opacity: 0;
+  animation: drop 1.2s forwards;
+}
+.drop-text span:nth-child(5){
+  display: inline-block;
+  transform: translateY(-200px);
+  opacity: 0;
+  animation: drop 1.5s forwards;
+}
+
+@keyframes drop {
+  to {
+    transform: translateY(0);
+    opacity: 1;
+  }
+}
+
+/* main heading */
+h2{
+  text-align: center;
+  font-size: 50px;
+  padding: 20px;
+  letter-spacing: 5px;
+}
+/* welcome page */
+.welcome{
+  position: fixed;
+  background-color: #08313b;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  transition: opacity 0.5s ease, filter 0.5s ease;
+  opacity: 1;
+  filter: blur(0);
+}
+
+.welcome.exit {
+  opacity: 0;
+  filter: blur(8px);
+}
+
+.result{
+  background-color: #08313bcc;
+  position: fixed;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  right: 0;
+}
+
+.result div{
+  font-size: 40px;
+  margin-bottom: 10px;
+}
+
+.result button{
+  display: block;
+  padding: 10px 20px;
+  background-color: #3c6172;
+  color: white;   
+  border: 1px solid;
+  border-color: #3c6172;
+  border-radius: 5px;
+  box-shadow: none;
+  font-size: 18px;
+}
+
+.result button:hover{
+  cursor: pointer;
+  color: #3c6172;
+  background-color: #fafafa;   
+}
+
+/* bingo cards */
+.bingo-card{        
+  background-color: #967c9b;
+  color: white;
+  padding: 20px 30px;
+  border-radius: 5px;
+  box-shadow: 4px 4px 10px black;
+  text-align: center;
+  flex: 1; 
+}
+#my.bingo-card{
+  background-color: #6a838f;
+  margin-right: 20px;
+}
+#ai.bingo-card{
+  background-color: #967c9b;
+}
+
+.row button{
+  width: 80px;
+  height: 80px;
+  cursor: pointer;
+  border: 1px solid #9e9e9e;
+  background-color: initial;
+  color: white;
+  cursor: default;
+}
+
+#my .row button:hover:enabled{
+  color: white;
+  background-color: #2b5c74;
+  cursor: pointer;
+}
+
+#my .row button.selected:hover{
+  background-color: #6a838f;
+}
+
+/* button to change order */
+#my button#numberOrder{
+  margin-top: 20px;
+  padding: 10px 20px;
+  border-radius: 5px;
+  background-color: #3c6172;
+  color: white;
+  font-size: 18px;
+  box-shadow: none;
+  border: 1px solid #3c6172;
+}
+#my button#numberOrder:hover:enabled{
+  color: #3c6172;
+  background-color: #f2f2f2;
+  cursor: pointer;
+}
+
+/* hide numbers of ai bingo */
+#ai .row button{
+  color: transparent;
+  cursor:default;
+}
+
+/* bingo numbers if selected */
+button.selected,
+button.selected{
+  cursor: default;
+  position: relative;
+}
+.selected::after,
+.selected::before{
+  position: absolute;
+  content: "";
+  top: 50%;
+  left: 50%;
+  width: 100%;
+  height: 1px;
+  background: #fafafa;
+}
+.selected::before {
+  transform: translate(-50%, -50%) rotate(45deg);
+}
+.selected::after {
+  transform: translate(-50%, -50%) rotate(-45deg);
+}
+
+/* bingo text */
+#myBingo, #aiBingo{
+  font-size: 18px;
+  margin-bottom: 10px;
+}
+#myBingo span, #aiBingo span{
+  display: inline-block;
+  padding: 2px;
+  margin-right: 2px;
+  width: 35px;
+  height: 35px;
+}
+
+/* highlight bingo letters based on the score */
+span.set, span.set{
+  color: white;
+  border-radius: 50%;
+  cursor: none;
+}
+#myBingo span.set{
+  background-color: #3c6172;
+}
+#aiBingo span.set{
+  background-color: #773084;
+}
+/* responsive design */
+@media only screen and (max-width: 985px) {
+  section {
+    flex-direction: column;
+  }
+  .bingo-card{
+    margin-top: 20px;
+  }
+  #my.bingo-card {
+    margin-right: 0px;
+  }
+}
+
+@media only screen and (max-width: 526px) {
+  .row button{
+    width: 50px;
+    height: 50px;
+  }
+  #my button#numberOrder {
+    margin-top: 15px;
+    padding: 6px 15px;
+    border-radius: 5px;
+    font-size: 15px;
+  }
+  .welcome span{
+    font-size: 28px;
+  }
+  .result div {
+    font-size: 25px;
+  }
+}
+
+@media only screen and (max-width: 350px) {
+  .result div {
+    font-size: 20px;
+  }
+  
+  #user-form form,
+  #permission-form form,
+  #connect-form form{
+    min-width: 180px;
+  }
+
+  #user-form input, #user-form button,
+  #upermission-form input, #upermission-form button,
+  #connect-form input, #connect-form button{
+    font-size: 0.8rem;
+  }
+}

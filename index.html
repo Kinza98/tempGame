@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <title>Bingo</title>
+    <meta charset="UTF-8">
+    <meta name="description" content="Enjoy an interactive 5x5 Bingo game with randomized numbers. Play against AI and test your luck!">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="author" content="kinza">
+    <meta name="keywords" content="game, bingo, numbers">
+    <!-- fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Pacifico&display=swap" rel="stylesheet"> 
+    <link href="https://fonts.googleapis.com/css2?family=Nunito+Sans:ital,opsz,wght@0,6..12,200..1000;1,6..12,200..1000&family=Pacifico&display=swap" rel="stylesheet">
+    <!-- CSS -->
+    <link rel="stylesheet" href="style.css">
+    </head>
+  <body class="d-flex fa-center fj-center dark-bg font-main wv-100 hv-100">
+    <div class="welcome wv-100 hv-100">
+      <div class="d-flex fj-center fa-center pacifico-regular h-100">
+        <h2 class="drop-text ">
+          <span>B</span>
+          <span>I</span>
+          <span>N</span>
+          <span>G</span>
+          <span>O</span>
+        </h2>
+      </div>
+    </div>
+    <main class="d-none">
+      <section id="user-form">
+        <form onsubmit="registerUser(event)">
+          <input type="text" name="user" placeholder="Enter Your Name" id="user">
+          <button type="submit">Next</button>
+        </form>
+      </section>
+      <section id="connect-form" class="d-none">
+        <form onsubmit="connectUser(event)">
+          <span class="form-span">Your ID: <span id="myID"></span></span>
+          <input type="text" name="id" placeholder="Partner ID" id="id">
+          <button type="submit" >Next</button>
+        </form>
+      </section>
+      <section id="loader"
+        <div></div>
+      </section>
+      <section id="permission-form" class="d-none">
+        <form id="permissionForm">
+          <span class="form-span">Do you want to connect with <span id="pName"></span></span>
+          <button type="button" onclick="connectPartner(event, 'yes')">Yes</button>
+          <button type="button" onclick="connectPartner(event, 'no')">No</button>
+        </form>
+      </section>
+      <section class="bingo-box d-flex fj-center">
+        <div class="bingo-card" id="my">
+          <div id="myBingo" class="pacifico-regular"><span role="button" tabindex="0">B</span><span role="button" tabindex="0">I</span><span role="button" tabindex="0">N</span><span role="button" tabindex="0">G</span><span role="button" tabindex="0">O</span></div>
+          <div class="row d-flex fj-center f-row fa-center">
+            <button class="d-flex fj-center fa-center" role="button" tabindex="0" onclick="cellClick(event)" id="my-cell-1" >1</button>
+            <button class="d-flex fj-center fa-center" role="button" tabindex="0" onclick="cellClick(event)" id="my-cell-2" >2</button>
+            <button class="d-flex fj-center fa-center" role="button" tabindex="0" onclick="cellClick(event)" id="my-cell-3" >3</button>
+            <button class="d-flex fj-center fa-center" role="button" tabindex="0" onclick="cellClick(event)" id="my-cell-4" >4</button>
+            <button class="d-flex fj-center fa-center" role="button" tabindex="0" onclick="cellClick(event)" id="my-cell-5"  >5</button>
+          </div>
+          <div class="row d-flex fj-center f-row fa-center">
+            <button class="d-flex fj-center fa-center" role="button" tabindex="0" onclick="cellClick(event)" id="my-cell-6" >1</button>
+            <button class="d-flex fj-center fa-center" role="button" tabindex="0" onclick="cellClick(event)" id="my-cell-7" >2</button>
+            <button class="d-flex fj-center fa-center" role="button" tabindex="0" onclick="cellClick(event)" id="my-cell-8" >3</button>
+            <button class="d-flex fj-center fa-center" role="button" tabindex="0" onclick="cellClick(event)" id="my-cell-9" >4</button>
+            <button class="d-flex fj-center fa-center" role="button" tabindex="0" onclick="cellClick(event)" id="my-cell-10" >5</button>
+          </div>
+          <div class="row d-flex fj-center f-row fa-center">
+            <button class="d-flex fj-center fa-center" role="button" tabindex="0" onclick="cellClick(event)" id="my-cell-11" >1</button>
+            <button class="d-flex fj-center fa-center" role="button" tabindex="0" onclick="cellClick(event)" id="my-cell-12" >2</button>
+            <button class="d-flex fj-center fa-center" role="button" tabindex="0" onclick="cellClick(event)" id="my-cell-13" >3</button>
+            <button class="d-flex fj-center fa-center" role="button" tabindex="0" onclick="cellClick(event)" id="my-cell-14" >4</button>
+            <button class="d-flex fj-center fa-center" role="button" tabindex="0" onclick="cellClick(event)" id="my-cell-15" >5</button>
+          </div>
+          <div class="row d-flex fj-center f-row fa-center">
+            <button class="d-flex fj-center fa-center" role="button" tabindex="0" onclick="cellClick(event)" id="my-cell-16" >1</button>
+            <button class="d-flex fj-center fa-center" role="button" tabindex="0" onclick="cellClick(event)" id="my-cell-17" >2</button>
+            <button class="d-flex fj-center fa-center" role="button" tabindex="0" onclick="cellClick(event)" id="my-cell-18" >3</button>
+            <button class="d-flex fj-center fa-center" role="button" tabindex="0" onclick="cellClick(event)" id="my-cell-19" >4</button>
+            <button class="d-flex fj-center fa-center" role="button" tabindex="0" onclick="cellClick(event)" id="my-cell-20" >5</button>
+          </div>
+          <div class="row d-flex fj-center f-row fa-center">
+            <button class="d-flex fj-center fa-center" role="button" tabindex="0" onclick="cellClick(event)" id="my-cell-21" >1</button>
+            <button class="d-flex fj-center fa-center" role="button" tabindex="0" onclick="cellClick(event)" id="my-cell-22" >2</button>
+            <button class="d-flex fj-center fa-center" role="button" tabindex="0" onclick="cellClick(event)" id="my-cell-23" >3</button>
+            <button class="d-flex fj-center fa-center" role="button" tabindex="0" onclick="cellClick(event)" id="my-cell-24" >4</button>
+            <button class="d-flex fj-center fa-center" role="button" tabindex="0" onclick="cellClick(event)" id="my-cell-25" >5</button>
+          </div>
+          <button id="numberOrder" type="button" onclick="generateNumbers('my')">Change Order</button>
+        </div>
+      </section>
+    </main>
+    <div class="pacifico-regular result wv-100 hv-100 d-flex fa-center fj-center d-none f-col ">
+      <div>
+        <span id="result-data">WON</span>
+      </div>
+      <button onclick="gameRefresh()">PLAY AGAIN</button>
+    </div>
+        <script src="https://cdn.socket.io/4.7.2/socket.io.min.js"></script>
+    <script src="script.js"></script>
+  <script>
+    
+  </script>
+  </body>
+</html>
