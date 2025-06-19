@@ -27,33 +27,69 @@
         </h2>
       </div>
     </div>
-    <main class="d-none">
-      <section id="user-form">
+    <main >
+      <section id="alert-bar" class="d-none">
+        <div id="message">Heyyyyy</div>
+        <div id="alert-close">x</div>
+      </section>
+      <section id="intro-card" class="d-none d-flex fj-center fa-center">
+        <div class="card">
+          <div class="question pacifico-regular">?</div>
+          <span id="close" onclick="closeIntro()">X</span>
+          <h3 class="t-center">New to <span class="pacifico-regular">BINGO</span></h3>
+          <p>
+            Bingo is a game of chance in which each player matches the numbers printed in different arrangements 
+            on cards.
+            <br>
+            Each card contains numbers from 1 to 25. Players take turns calling out numbers one by one. 
+            If the called number exists on a player's card, they mark it. Whenever a player completes a 
+            full row, column, or diagonal, they score a point. Since "BINGO" has five letters, each point 
+            allows the player to cross out one letter. 
+            <br>
+            The first player to cross out all five letters — 
+            <span class="pacifico-regular">B</span>, 
+            <span class="pacifico-regular">I</span>, 
+            <span class="pacifico-regular">N</span>,
+            <span class="pacifico-regular">G</span>,
+            <span class="pacifico-regular">O</span> — wins the game.
+          </p>
+        </div>
+      </section>
+      <section id="main-screen" class="d-flex fj-center fa-center">
+        <div class="d-flex f-col">
+          <h3 class="pacifico-regular t-center" >Let's start!</h3>
+          <button type="submit" class="greyBtn font-main" onclick="playAI()">Play with AI</button>
+          <button type="submit" class="greyBtn font-main" onclick="playFriends()">Play with Friends</button>
+          <a href="#">Never played Bingo before?</a>
+        </div>
+      </section>
+      <section id="user-form" class="d-flex fj-center fa-center d-none">
         <form onsubmit="registerUser(event)">
-          <input type="text" name="user" placeholder="Enter Your Name" id="user">
+          <input type="text" name="user" placeholder="Enter Your Name" id="user" autofocus required autocomplete="off">
           <button type="submit">Next</button>
         </form>
       </section>
-      <section id="connect-form" class="d-none">
+      <section id="connect-form" class="d-none d-flex fj-center fa-center">
         <form onsubmit="connectUser(event)">
           <span class="form-span">Your ID: <span id="myID"></span></span>
-          <input type="text" name="id" placeholder="Partner ID" id="id">
+          <input type="text" name="id" placeholder="Partner ID" id="id" autofocus required autocomplete="off">
           <button type="submit" >Next</button>
         </form>
       </section>
-      <section id="loader"
+      <section id="loader">
         <div></div>
       </section>
-      <section id="permission-form" class="d-none">
+      <section id="permission-form" class="d-none d-flex fj-center fa-center">
         <form id="permissionForm">
           <span class="form-span">Do you want to connect with <span id="pName"></span></span>
           <button type="button" onclick="connectPartner(event, 'yes')">Yes</button>
           <button type="button" onclick="connectPartner(event, 'no')">No</button>
         </form>
       </section>
-      <section class="bingo-box d-flex fj-center">
+      <section class="d-flex fj-center" id="bingo-box">
         <div class="bingo-card" id="my">
           <div id="myBingo" class="pacifico-regular"><span role="button" tabindex="0">B</span><span role="button" tabindex="0">I</span><span role="button" tabindex="0">N</span><span role="button" tabindex="0">G</span><span role="button" tabindex="0">O</span></div>
+          <div id="play-with" class="d-none">You are playing with <span id="partner"></span></div>
           <div class="row d-flex fj-center f-row fa-center">
             <button class="d-flex fj-center fa-center" role="button" tabindex="0" onclick="cellClick(event)" id="my-cell-1" >1</button>
             <button class="d-flex fj-center fa-center" role="button" tabindex="0" onclick="cellClick(event)" id="my-cell-2" >2</button>
@@ -89,7 +125,7 @@
             <button class="d-flex fj-center fa-center" role="button" tabindex="0" onclick="cellClick(event)" id="my-cell-24" >4</button>
             <button class="d-flex fj-center fa-center" role="button" tabindex="0" onclick="cellClick(event)" id="my-cell-25" >5</button>
           </div>
-          <button id="numberOrder" type="button" onclick="generateNumbers('my')">Change Order</button>
+          <button id="numberOrder" class="greyBtn" type="button" onclick="generateNumbers('my')">Change Order</button>
         </div>
       </section>
     </main>
@@ -105,4 +141,4 @@
     
   </script>
   </body>
-</html>
+</html>                                                          </html>
