@@ -8,7 +8,11 @@ socket.on("connect", () => {
 socket.on("disconnect", () => {
   console.log("❌ Disconnected from server");
 });
+<<<<<<< HEAD
     
+=======
+
+>>>>>>> f5d5c9b690b5c6645f48df51c9eef8a65b2bd944
 socket.on("number-received", val => {
   showAlert(`${user.partnerName} selected ${val}. It's your turn.`)
   selectNumber(val);
@@ -159,7 +163,7 @@ function countScore(e){
     if(score < 5)
       score++;
   }
-  
+
   if(document.getElementById(`${e}-cell-1`).classList.contains('selected') 
   && document.getElementById(`${e}-cell-6`).classList.contains('selected') 
   && document.getElementById(`${e}-cell-11`).classList.contains('selected') 
@@ -261,6 +265,7 @@ function gameRefresh(){
   renderGame('my');
   const ai = document.getElementById("ai") ? document.getElementById("ai") : null ;
   if(ai) ai.remove();
+<<<<<<< HEAD
   document.querySelectorAll(`#myBingo span`).forEach(e => e.classList.remove('set'))
   for(let i = 1; i<= 25; i++){
     document.getElementById(`my-cell-${i}`).disabled = false;
@@ -268,6 +273,8 @@ function gameRefresh(){
   }
   document.getElementById("alert-bar").classList.add("d-none");
   if(socket.connected) socket.disconnect();
+=======
+>>>>>>> f5d5c9b690b5c6645f48df51c9eef8a65b2bd944
 }
 
 function scoring(e){
@@ -332,7 +339,7 @@ function cellClick(e){
   e.target.classList.add('selected');
 
   scoring('my');
-  
+
   for(let i = 1; i<= 25; i++)
     document.getElementById(`my-cell-${i}`).disabled = true;
 
@@ -344,6 +351,7 @@ function cellClick(e){
     }
     // AI selecting number
     setTimeout(function() {
+<<<<<<< HEAD
       
       let cellNum = AISelect();
       document.querySelector(`#${cellNum}`).classList.add('selected');
@@ -356,6 +364,20 @@ function cellClick(e){
         }
       }
 
+=======
+
+      let cellNum = AISelect();
+      document.querySelector(`#${cellNum}`).classList.add('selected');
+
+      // marking the ai selected number in client card
+      let numV = document.querySelector(`#${cellNum}`).innerText;
+      for(let i = 1; i<=25; i++){
+        if(document.querySelector(`#my-cell-${i}`).innerText == numV){
+          document.querySelector(`#my-cell-${i}`).classList.add('selected');
+        }
+      }
+
+>>>>>>> f5d5c9b690b5c6645f48df51c9eef8a65b2bd944
       scoring('ai');
 
       for(let i = 1; i<= 25; i++)
@@ -464,7 +486,11 @@ function createAiCard(){
 }
 
 document.getElementById("alert-close").addEventListener("click", () => {
+<<<<<<< HEAD
   document.getElementById("alert-bar").classList.add("d-none");
+=======
+  document.getElementById("alert-bar").classList.add("d-none")
+>>>>>>> f5d5c9b690b5c6645f48df51c9eef8a65b2bd944
 })
 
 function showAlert(m){
@@ -483,6 +509,7 @@ document.querySelector("#main-screen a").addEventListener("click", (event) => {
   document.getElementById("intro-card").classList.remove("pop-out");
   document.getElementById("intro-card").classList.remove("d-none")
   document.getElementById("intro-card").classList.add("pop-in")
+<<<<<<< HEAD
 })
 
 let loaderTimer = null;
@@ -505,3 +532,6 @@ function setLoader() {
   // Now hide the loader (or do it earlier depending on flow)
   document.getElementById("loader").classList.remove("d-none");
 }
+=======
+})
+>>>>>>> f5d5c9b690b5c6645f48df51c9eef8a65b2bd944
