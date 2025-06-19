@@ -1,4 +1,8 @@
-const socket = io("http://localhost:3000");
+const socket = io(
+  window.location.hostname === 'localhost'
+    ? 'http://localhost:3000'
+    : 'https://https://tempgame-production-9b23.up.railway.app'
+);
 
 const user = {}
 socket.on("connect", () => {

@@ -1,7 +1,7 @@
 const PORT = '3000';
 const io = require("socket.io")(PORT, {
   cors: {
-    origin:['http://localhost:5500']
+    origin:['*', 'http://localhost:5500']
   }
 })
 
