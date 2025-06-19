@@ -1,4 +1,4 @@
-const socket = io('https://77337a44-1cd4-4f21-8a22-b7143fbf5ef8-00-23wzsy35jfxha.sisko.replit.dev:5000');
+const socket = io();
 let aiGame = false;
 const user = {}
 socket.on("connect", () => {
@@ -33,6 +33,7 @@ function registerUser(event){
 }
 
 socket.on("yourID", (id) => {
+  console.log("idd")
   document.getElementById("myID").innerText = id;
   user.id = id;
   document.getElementById("connect-form").classList.remove("d-none");

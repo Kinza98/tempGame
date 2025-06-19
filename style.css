@@ -301,7 +301,7 @@ main{
   border: 10px solid white;
   border-style: dotted;
   transform: rotate(360deg);
-  border-top-color: var(--main-purple);
+  /* border-color: var(--main-purple); */
   animation: spinner 2.5s 0s linear infinite;
 }
 
