@@ -28,7 +28,9 @@ function selectNumber(number){
 function registerUser(event){
     event.preventDefault()
     user.name = document.getElementById("user").value;
-    if(!socket.connected)
+    if (socket.connected) {
+      console.log("Socket is connected");
+    } else 
       socket.connect()
     slideAndVanish("user-form");
     setLoader();
