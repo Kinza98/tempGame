@@ -75,10 +75,7 @@ main{
   }
 }
 
-<<<<<<< HEAD
 
-=======
->>>>>>> f5d5c9b690b5c6645f48df51c9eef8a65b2bd944
 #intro-card .card{
   width: 100%;
   max-width: 500px;
@@ -144,11 +141,7 @@ main{
 }
 
 .slide-out{
-<<<<<<< HEAD
   animation: slideUp 0.5s ease-out forwards;;
-=======
-  animation: slideOut 0.5s ease-out forwards;;
->>>>>>> f5d5c9b690b5c6645f48df51c9eef8a65b2bd944
 }
 
 @keyframes slideOut {
@@ -173,10 +166,7 @@ main{
   justify-content: space-between;
   flex-direction: row;
   align-items: center;
-<<<<<<< HEAD
   z-index: 1000;
-=======
->>>>>>> f5d5c9b690b5c6645f48df51c9eef8a65b2bd944
 }
 
 #message{
@@ -186,10 +176,7 @@ main{
 #alert-close{
   cursor: pointer;
   padding: 0px 5px;
-<<<<<<< HEAD
   margin-right: -0.7em;
-=======
->>>>>>> f5d5c9b690b5c6645f48df51c9eef8a65b2bd944
 }
 
 #play-with{
@@ -315,11 +302,7 @@ main{
   border-style: dotted;
   transform: rotate(360deg);
   border-top-color: var(--main-purple);
-<<<<<<< HEAD
   animation: spinner 2.5s 0s linear infinite;
-=======
-  animation: spinner 1s 0s linear infinite;
->>>>>>> f5d5c9b690b5c6645f48df51c9eef8a65b2bd944
 }
 
 @keyframes spinner {
@@ -636,7 +619,7 @@ span.set, span.set{
   .result div {
     font-size: 20px;
   }
-
+  
   #user-form form,
   #permission-form form,
   #connect-form form{
@@ -655,8 +638,4 @@ span.set, span.set{
     padding: 0em 1em 1em 1em;
     font-size: 0.8rem;
   }
-<<<<<<< HEAD
 }
-=======
-  }
->>>>>>> f5d5c9b690b5c6645f48df51c9eef8a65b2bd944
