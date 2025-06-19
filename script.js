@@ -3,6 +3,8 @@ let aiGame = false;
 const user = {}
 socket.on("connect", () => {
   console.log("✅ Connected to server!", socket.id);
+  if(user.name)
+    socket.emit("register", user.name); 
 });
 
 socket.on("disconnect", () => {
@@ -28,8 +30,6 @@ function registerUser(event){
     user.name = document.getElementById("user").value;
     if(!socket.connected)
       socket.connect()
-    if(socket.connected)
-      socket.emit("register", user.name);
     slideAndVanish("user-form");
     setLoader();
 }
