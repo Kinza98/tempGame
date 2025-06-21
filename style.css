@@ -9,6 +9,7 @@
   --main-dark-grey: #08313b;
   --main-purple: #967c9b;
   --main-dark-purple: #4a1753;
+  --soft-purple: #5e4662;
 }
 
 .t-center{
@@ -72,6 +73,33 @@ main{
   100% {
     transform: scale(0.5);
     opacity: 0;
+  }
+}
+
+.drop-in{
+  animation: dropin 0.4s ease-in forwards;
+}
+
+@keyframes dropin {
+  from{
+    transform: translateY(-100vh);
+  }
+  to{
+    transform: translateY(0);
+  }
+}
+
+
+.drop-out{
+  animation: dropout 0.4s ease-out forwards;
+}
+
+@keyframes dropout {
+  from{
+    transform: translateY(0);
+  }
+  to{
+    transform: translateY(-100vh);
   }
 }
 
@@ -194,24 +222,30 @@ main{
 #connect-form{
   position: fixed;
   width: 100vw;
-  height: 100vh;
   top: 0;
   bottom: 0;
   left: 0;
   right: 0;
-  background-color: var(--main-dark-grey);
+  max-width: 700px;
+  box-shadow: 1px 1px 13px #121212;
+  height: fit-content;
+  min-height: 300px;
+  margin: auto;
+  background-color: var(--soft-purple);
+  border-radius: 50px;
+  z-index: 100;
 }
 
 #user-form{
-  z-index: 99;
+  z-index: 100;
 }
 
 #permission-form{
-  z-index: 98;
+  z-index: 101;
 }
 
 #connect-form{
-  z-index: 97;
+  z-index: 100;
 }
 
 #user-form form,
@@ -233,7 +267,7 @@ main{
   box-shadow: none;
   outline: none;
   border: none;
-  background: var(--main-dark-grey);
+  background-color: var(--soft-purple);
   color: white;
   border-bottom: 2px solid white;
   margin-bottom: 20px;
@@ -262,7 +296,7 @@ main{
 #permission-form button:hover,
 #connect-form button:hover
 {
-  background-color: var(--main-dark-grey);
+  background-color: var(--soft-purple);
   border: 1px solid white;
   color: white;
 }
@@ -281,7 +315,7 @@ main{
 
 #loader{
   position: fixed;
-  z-index: 10;
+  z-index: 102;
   background: var(--main-dark-purple);
   left: 0;
   right: 0;

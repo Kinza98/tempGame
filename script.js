@@ -1,6 +1,11 @@
 const socket = io();
 let aiGame = false;
-const user = {}
+const user = {
+  id: null,
+  name: null,
+  room: null,
+  partners: []
+}
 socket.on("connect", () => {
   console.log("✅ Connected to server!", socket.id);
 });
@@ -8,16 +13,27 @@ socket.on("connect", () => {
 socket.on("disconnect", () => {
   console.log("❌ Disconnected from server");
 });
+
+socket.on("error", (m) => {
+  gameRefresh();
+  setTimeout(() => showAlert(m), 200)
+  setTimeout(() => document.getElementById("alert-bar").classList.add("d-none"), 5000)
+});
     
-socket.on("number-received", val => {
-  showAlert(`${user.partnerName} selected ${val}. It's your turn.`)
+socket.on("number-received", (me, val, name) => {
+  console.log(me, val, name)
+  let meName = (me === user.name)? 'You': me
+  let pName = (name === user.name)? 'Your': (name+"'s")
+  showAlert(`${meName} selected ${val}. It's ${pName} turn.`)
+  for(let i=1; i<=25; i++)
+    document.getElementById(`my-cell-${i}`).disabled = true;
   selectNumber(val);
   scoring("my")
 })
 
 function selectNumber(number){   
   for(let i=1; i<=25; i++){
-    document.getElementById(`my-cell-${i}`).disabled = false;
+    document.getElementById(`my-cell-${i}`).disabled = true;
     if(document.getElementById(`my-cell-${i}`).innerText === number)
       document.getElementById(`my-cell-${i}`).classList.add('selected')
     }
@@ -26,9 +42,15 @@ function selectNumber(number){
 function registerUser(event){
     event.preventDefault()
     user.name = document.getElementById("user").value;
-    if(socket.connected)
+    if(!socket.connected){
+      socket.connect();
       socket.emit("register", user.name);
-    slideAndVanish("user-form");
+    }
+    else
+      socket.emit("register", user.name);
+    // slideAndVanish("user-form");
+    // document.getElementById("user-form").classList.remove("drop-in");
+    // document.getElementById("user-form").classList.add("drop-out");
     setLoader();
 }
 
@@ -36,6 +58,7 @@ socket.on("yourID", (id) => {
   document.getElementById("myID").innerText = id;
   user.id = id;
   document.getElementById("connect-form").classList.remove("d-none");
+  // document.getElementById("connect-form").classList.add("drop-in");
   document.getElementById("id").focus()
   document.getElementById("loader").classList.add("d-none")
 })
@@ -44,36 +67,92 @@ socket.on("yourID", (id) => {
 function connectUser(event){
   event.preventDefault();
   let pId = document.getElementById("id").value;
-  slideAndVanish("connect-form")
+  // slideAndVanish("connect-form")
+  document.getElementById("user-form").classList.remove("drop-in");
+  document.getElementById("user-form").classList.add("drop-out");
+  document.getElementById("connect-form").classList.remove("drop-in");
+  document.getElementById("connect-form").classList.add("drop-out");
   setLoader();
   socket.emit("askConnection", user.id, pId);
 }
 
 socket.on("connectionRequest", (pid, pname) => {
   document.getElementById("loader").classList.add("d-none");
-  document.getElementById("pName").innerText = pname;
-  document.getElementById("pName").setAttribute("data-info", pid);
+  let partnerElement = document.getElementById("pName");
+  if(partnerElement.innerText !== ""){
+    partnerElement.innerText += ", ";
+    partnerElement.innerText += pname;
+  }else{
+    partnerElement.innerText = pname;
+  }
+  if(partnerElement.hasAttribute("data-info")){
+    let existingId = partnerElement.getAttribute("data-info");
+    existingId += ","+pid
+    partnerElement.setAttribute("data-info", existingId)
+  }else{
+    partnerElement.setAttribute("data-info", pid)
+  }
+  document.getElementById("user-form").classList.remove("drop-in");
+  document.getElementById("user-form").classList.add("d-none");
+  document.getElementById("connect-form").classList.remove("drop-in");
+  document.getElementById("connect-form").classList.add("d-none");
   document.getElementById("permission-form").classList.remove("d-none");
+  // document.getElementById("permission-form").classList.add("drop-in");
 });
 
 
 function connectPartner(event, res){
   event.preventDefault();
-  slideAndVanish("permission-form")
+  // slideAndVanish("permission-form");
+  document.getElementById("permission-form").classList.remove("drop-in");
+  document.getElementById("permission-form").classList.add("drop-out");
+  document.getElementById("main-screen").classList.add("d-none");
   setLoader();
   let pId = document.getElementById("pName").getAttribute("data-info")
-  if(res === "yes")
-    socket.emit("connectWith", pId)
+  let pIdArr = pId.split(",")
+  console.log(pIdArr)
+  if(res === "yes"){
+    pIdArr.forEach(p_id =>  {
+      socket.emit("connectWith", p_id)
+    })
+  }
 }
 
+socket.on("partner-list", list => {
+  user.partners = list.filter(l => l.id !== user.id);
+  let partEle = document.getElementById("partner");
+  partEle.innerText = user.partners[0].name
+  for(let i=1; i<user.partners.length; i++){
+    partEle.innerText += ", "+ user.partners[i].name
+  }
+})
+
 socket.on("room-connected", (room, partner) => {
+  slideAndVanish("main-screen");
   user.room = room
   document.getElementById("loader").classList.add("d-none");
   document.getElementById("connect-form").classList.add("d-none");
+  document.getElementById("main-screen").classList.add("d-none");
   document.getElementById("play-with").classList.remove("d-none")
-  user.partnerName = partner.name;
   console.log(partner)
-  document.getElementById("partner").innerText = user.partnerName? user.partnerName : 'undefined'
+  // let userAlready = false;
+  // if(user.partner.find( u => u.id === partner.id)){
+  //   userAlready = true;
+  // }
+  // if(!userAlready){
+  //   user.partner.push(partner);
+  //   console.log("partners", user.partner, user.partner && user.partner.length > 0)
+  //   let partnerName = "";
+  //   if(user.partner.length > 0)
+  //     user.partner.forEach(p => partnerName += p.name + " ")
+  //   let partEle = document.getElementById("partner");
+  //   partEle.innerText = partnerName ? partnerName : "undefined"
+  // }
+  // (partEle.innerText !== ""  && partEle.innerText !== NaN)? (
+  //   partEle.innerText + ", " + partnerName
+  // )
+  // : partnerName
+  // console.log(innerText)
 })
 
 socket.on("partnerDisconnected", () => {
@@ -81,7 +160,6 @@ socket.on("partnerDisconnected", () => {
   document.querySelector('.result').classList.remove('d-none');
   document.querySelector('.result #result-data').innerText = `Oops! ${user.partnerName} has left the game`;
 
-  // Option 2: Also disconnect this user
   socket.disconnect();
 });
 
@@ -363,11 +441,20 @@ function cellClick(e){
       }, 200);
   }else{
     if (socket && socket.connected){
-      socket.emit("number-selected", user.room, val)
+      socket.emit("number-selected", user.room, val);
+      for(let i=1; i<=25; i++)
+        document.getElementById(`my-cell-${i}`).disabled = true;
       showAlert(`You selected ${val}. It's ${user.partnerName}'s turn.`)
     }
   }
 }
+
+socket.on("myTurn", ()=>{
+  for(let i=1; i<=25; i++){
+    document.getElementById(`my-cell-${i}`).disabled = false;
+  }
+})
+
 window.addEventListener('load', function() {
 
   setTimeout(function() {
@@ -401,8 +488,8 @@ function closeIntro(){
 }
 
 function playFriends(){
-  slideAndVanish("main-screen");
   document.getElementById("user-form").classList.remove("d-none");
+  document.getElementById("user-form").classList.add("drop-in");
   document.getElementById("user").focus()
 }
 
@@ -500,7 +587,7 @@ function setLoader() {
       setTimeout(() => showAlert("Error occurred!"), 200)
       setTimeout(() => document.getElementById("alert-bar").classList.add("d-none"), 2000)
     }
-  }, 10000); // or 10000 for 10 seconds
+  }, 20000); // or 10000 for 10 seconds
 
   // Now hide the loader (or do it earlier depending on flow)
   document.getElementById("loader").classList.remove("d-none");
