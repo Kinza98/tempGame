@@ -71,7 +71,7 @@
       </section>
       <section id="connect-form" class="d-none d-flex fj-center fa-center">
         <form onsubmit="connectUser(event)">
-          <span class="form-span">Your ID: <span id="myID"></span></span>
+          <span class="form-span"> <img onclick="copyID()" src="copy.png" alt="copy icon"> Your ID: <span id="myID"></span></span>
           <input type="text" name="id" placeholder="Partner ID" id="id" autofocus required autocomplete="off">
           <button type="submit" >Next</button>
         </form>
@@ -85,6 +85,47 @@
           <button type="button" onclick="connectPartner(event, 'yes')">Yes</button>
           <button type="button" onclick="connectPartner(event, 'no')">No</button>
         </form>
+      </section>
+      <section id="color-card" class="d-flex fj-center fa-center d-none">
+        <div class="cards d-flex f-row fj-center fa-center">
+          <div id="color-close">X</div>
+          <div onclick="selectCardColor('darkred')" class="color-op darkred"></div>
+          <div onclick="selectCardColor('teal')" class="color-op teal"></div>
+          <div onclick="selectCardColor('ceruleanblue')" class="color-op ceruleanblue"></div>
+          <div onclick="selectCardColor('cranberry')" class="color-op cranberry"></div>
+          <div onclick="selectCardColor('darkPurple')" class="color-op darkPurple"></div>
+          <div onclick="selectCardColor('softPurple')" class="color-op softPurple"></div>
+          <div onclick="selectCardColor('purple')" class="color-op purple"></div>
+          <div onclick="selectCardColor('grey')" class="color-op grey"></div>
+          <div onclick="selectCardColor('lightGrey')" class="color-op lightGrey"></div>
+          <div onclick="selectCardColor('lightGreen')" class="color-op lightGreen"></div>
+          <div onclick="selectCardColor('darkGreen')" class="color-op darkGreen"></div>
+          <div onclick="selectCardColor('skyblue')" class="color-op skyblue"></div>
+          <div onclick="selectCardColor('skyGreen')" class="color-op skyGreen"></div>
+          <div onclick="selectCardColor('pink')" class="color-op pink"></div>
+          <div onclick="selectCardColor('black')" class="color-op black"></div>
+          <!-- <table id="">
+            <tr><td></td><td></td><td></td><td></td><td></td></tr>            
+            <tr><td></td><td></td><td></td><td></td><td></td></tr>
+            <tr><td></td><td></td><td></td><td></td><td></td></tr>
+            <tr><td></td><td></td><td></td><td></td><td></td></tr>
+            <tr><td></td><td></td><td></td><td></td><td></td></tr>
+          </table>
+          <table id="">
+            <tr><td></td><td></td><td></td><td></td><td></td></tr>            
+            <tr><td></td><td></td><td></td><td></td><td></td></tr>
+            <tr><td></td><td></td><td></td><td></td><td></td></tr>
+            <tr><td></td><td></td><td></td><td></td><td></td></tr>
+            <tr><td></td><td></td><td></td><td></td><td></td></tr>
+          </table>
+          <table id="darkred">
+            <tr><td></td><td></td><td></td><td></td><td></td></tr>            
+            <tr><td></td><td></td><td></td><td></td><td></td></tr>
+            <tr><td></td><td></td><td></td><td></td><td></td></tr>
+            <tr><td></td><td></td><td></td><td></td><td></td></tr>
+            <tr><td></td><td></td><td></td><td></td><td></td></tr>
+          </table> -->
+        </div>
       </section>
       <section class="d-flex fj-center" id="bingo-box">
         <div class="bingo-card" id="my">
@@ -126,6 +167,7 @@
             <button class="d-flex fj-center fa-center" role="button" tabindex="0" onclick="cellClick(event)" id="my-cell-25" >5</button>
           </div>
           <button id="numberOrder" class="greyBtn" type="button" onclick="generateNumbers('my')">Change Order</button>
+          <a href="#" onclick="ShowColorCard(event)">Choose Card Color</a>
         </div>
       </section>
     </main>

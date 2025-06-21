@@ -16,7 +16,7 @@ socket.on("disconnect", () => {
 
 socket.on("error", (m) => {
   gameRefresh();
-  setTimeout(() => showAlert(m), 200)
+  setTimeout(() => showAlert("msg",m), 200)
   setTimeout(() => document.getElementById("alert-bar").classList.add("d-none"), 5000)
 });
     
@@ -24,7 +24,7 @@ socket.on("number-received", (me, val, name) => {
   console.log(me, val, name)
   let meName = (me === user.name)? 'You': me
   let pName = (name === user.name)? 'Your': (name+"'s")
-  showAlert(`${meName} selected ${val}. It's ${pName} turn.`)
+  showAlert("msg",`${meName} selected ${val}. It's ${pName} turn.`)
   for(let i=1; i<=25; i++)
     document.getElementById(`my-cell-${i}`).disabled = true;
   selectNumber(val);
@@ -409,7 +409,7 @@ function cellClick(e){
   const val = e.target.innerText;
 
   if(e.target.classList.contains('selected')){
-    showAlert(`${val} was already selected. Its your turn.`)
+    showAlert("error",`${val} was already selected. Choose a different number.`)
     return;
   }
   // mark selected number
@@ -450,7 +450,7 @@ function cellClick(e){
       socket.emit("number-selected", user.room, val);
       for(let i=1; i<=25; i++)
         document.getElementById(`my-cell-${i}`).disabled = true;
-      showAlert(`You selected ${val}. It's ${user.partnerName}'s turn.`)
+      showAlert("msg",`You selected ${val}. It's ${user.partnerName}'s turn.`)
     }
   }
 }
@@ -561,8 +561,9 @@ document.getElementById("alert-close").addEventListener("click", () => {
   document.getElementById("alert-bar").classList.add("d-none");
 })
 
-function showAlert(m){
+function showAlert(type,m){
   let alertB =  document.getElementById("alert-bar");
+  alertB.classList.add(`${type}-alert`);
   alertB.classList.remove("d-none")
   document.getElementById("message").innerText=m;
 
@@ -591,11 +592,36 @@ function setLoader() {
     // If loader is still visible, show error
     if (!loader.classList.contains("d-none")) {
       gameRefresh();
-      setTimeout(() => showAlert("Error occurred!"), 200)
+      setTimeout(() => showAlert("error","Error occurred!"), 200)
       setTimeout(() => document.getElementById("alert-bar").classList.add("d-none"), 2000)
     }
   }, 20000); // or 10000 for 10 seconds
 
   // Now hide the loader (or do it earlier depending on flow)
   document.getElementById("loader").classList.remove("d-none");
+}
+
+function copyID() {
+  var myId = document.getElementById("myID").innerText;
+  navigator.clipboard.writeText(myId)
+    .then(() => showAlert("msg","Copied"))
+    .catch(err => showAlert("error", "Failed to copy: " + err));
+}
+
+function selectCardColor(color){
+  document.getElementById('my').removeAttribute('class');
+  document.getElementById("my").classList.add(color)
+  document.getElementById("my").classList.add('bingo-card')
+}
+
+document.getElementById("color-close").addEventListener("click", () => {
+    document.getElementById("color-card").classList.add("pop-out");
+    setTimeout(()=> document.getElementById("color-card").classList.add("d-none"), 380);
+})
+
+function ShowColorCard(event){
+  event.preventDefault();
+  document.getElementById("color-card").classList.remove("pop-out");
+  document.getElementById("color-card").classList.remove("d-none");
+  document.getElementById("color-card").classList.add("pop-in");
 }

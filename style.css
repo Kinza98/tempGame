@@ -198,8 +198,16 @@ main{
   z-index: 1000;
 }
 
+.error-alert{
+  background-color: #b5190d !important;
+}
+
 #message{
   color: #bcbcbc;
+}
+
+.error-alert #message{
+  color: #fff;
 }
 
 #alert-close{
@@ -235,6 +243,11 @@ main{
   background-color: var(--soft-purple);
   /* border-radius: 50px; */
   /* z-index: 100; */
+}
+
+#connect-form img{
+  cursor: pointer;
+  margin-right: 2px;
 }
 
 #user-form{
@@ -347,6 +360,122 @@ main{
   to{
     transform: rotate(360deg);
   }
+}
+
+#color-card{
+  position: fixed;
+  margin: auto;
+  z-index: 10000;
+  width: 100%;
+  flex-wrap: wrap;
+  left: 0;
+  top: 0;
+  bottom: 0;
+  right: 0;
+}
+
+#color-card .cards{
+  width: 100%;
+  flex-wrap: wrap;
+  max-width: 600px;
+  background-color: #00000054;
+  border-radius: 10px;
+  position: relative;
+  padding: 30px 20px 20px 20px;
+}
+
+#color-close{
+  position: absolute;
+  right: 0;
+  top: 0;
+  color: #dcd9d9;
+  padding: 10px 15px;
+  cursor: pointer;
+}
+
+.bingo-card a{
+  display: block;
+  color: var(--main-dark-purple);
+  margin: 10px 0px 0px 0px;
+}
+
+.color-op{
+  width: 50px;
+  height: 50px;
+  border-radius: 50px;
+  box-shadow: 1px 1px 6px black;
+  margin: 10px;
+  cursor: pointer;
+}
+
+.darkred{
+  background-color: darkred !important;
+}
+
+.teal{
+  background-color: #008b6b !important;
+}
+
+.ceruleanblue{
+  background-color: #006A8B !important;
+}
+
+.cranberry {
+  background-color: #8b0063 !important;
+}
+
+.darkPurple{
+  background-color: var(--main-dark-purple) !important;
+}
+
+.softPurple {
+  background-color: var(--soft-purple) !important;
+}
+
+.black {
+  background-color: black !important;
+}
+
+.white {
+  background-color: white !important;
+}
+
+.purple {
+  background-color: var(--main-purple) !important;
+}
+
+.grey {
+  background-color: var(--main-dark-grey) !important;
+  box-shadow: none !important;
+}
+
+.lightGrey {
+  background-color: var(--main-grey) !important;
+}
+
+.lightGreen{
+  background-color: #aed581 !important;
+}
+
+.darkGreen{
+  background-color: #33691e !important;
+}
+
+.lightSkyGreen{
+  background-color: #c8e6c9 !important;
+}
+
+.skyblue{
+  background-color: #4db6ac !important;
+}
+
+.skyGreen{
+  background-color: #00796b !important;
+}
+
+
+.pink{
+  background-color: #ef9eac !important;
 }
 
 /* fonts */
@@ -533,12 +662,12 @@ h2{
 
 #my .row button:hover:enabled{
   color: white;
-  background-color: #2b5c74;
+  /* background-color: #2b5c74; */
   cursor: pointer;
 }
 
 #my .row button.selected:hover{
-  background-color: var(--main-grey);
+  /* background-color: var(--main-grey); */
 }
 
 /* button to change order */
@@ -647,6 +776,11 @@ span.set, span.set{
     max-width: 90%;
     min-width: 200px;
     font-size: 0.9rem;
+  }
+
+  #color-card .cards{
+    max-width: 90vw;
+    padding: 30px 10px 10px 10px;
   }
 }
 
