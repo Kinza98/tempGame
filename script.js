@@ -48,7 +48,7 @@ function registerUser(event){
     }
     else
       socket.emit("register", user.name);
-    // slideAndVanish("user-form");
+    slideAndVanish("user-form");
     // document.getElementById("user-form").classList.remove("drop-in");
     // document.getElementById("user-form").classList.add("drop-out");
     setLoader();
@@ -58,6 +58,8 @@ socket.on("yourID", (id) => {
   document.getElementById("myID").innerText = id;
   user.id = id;
   document.getElementById("connect-form").classList.remove("d-none");
+  // document.getElementById("connect-form").classList.remove("drop-out");
+  // document.getElementById("connect-form").classList.add("drop-in");
   // document.getElementById("connect-form").classList.add("drop-in");
   document.getElementById("id").focus()
   document.getElementById("loader").classList.add("d-none")
@@ -67,11 +69,11 @@ socket.on("yourID", (id) => {
 function connectUser(event){
   event.preventDefault();
   let pId = document.getElementById("id").value;
-  // slideAndVanish("connect-form")
-  document.getElementById("user-form").classList.remove("drop-in");
-  document.getElementById("user-form").classList.add("drop-out");
-  document.getElementById("connect-form").classList.remove("drop-in");
-  document.getElementById("connect-form").classList.add("drop-out");
+  slideAndVanish("connect-form")
+  // document.getElementById("user-form").classList.remove("drop-in");
+  // document.getElementById("user-form").classList.add("drop-out");
+  // document.getElementById("connect-form").classList.remove("drop-in");
+  // document.getElementById("connect-form").classList.add("drop-out");
   setLoader();
   socket.emit("askConnection", user.id, pId);
 }
@@ -92,11 +94,14 @@ socket.on("connectionRequest", (pid, pname) => {
   }else{
     partnerElement.setAttribute("data-info", pid)
   }
-  document.getElementById("user-form").classList.remove("drop-in");
-  document.getElementById("user-form").classList.add("d-none");
-  document.getElementById("connect-form").classList.remove("drop-in");
-  document.getElementById("connect-form").classList.add("d-none");
+  // document.getElementById("user-form").classList.remove("drop-in");
+  // document.getElementById("user-form").classList.add("d-none");
+  // document.getElementById("connect-form").classList.remove("drop-in");
+  // document.getElementById("connect-form").classList.add("d-none");
+  slideAndVanish("user-form")
+  slideAndVanish("connect-form")
   document.getElementById("permission-form").classList.remove("d-none");
+  // document.getElementById("permission-form").classList.remove("drop-out");
   // document.getElementById("permission-form").classList.add("drop-in");
 });
 
@@ -104,9 +109,10 @@ socket.on("connectionRequest", (pid, pname) => {
 function connectPartner(event, res){
   event.preventDefault();
   // slideAndVanish("permission-form");
-  document.getElementById("permission-form").classList.remove("drop-in");
-  document.getElementById("permission-form").classList.add("drop-out");
-  document.getElementById("main-screen").classList.add("d-none");
+  // document.getElementById("permission-form").classList.remove("drop-in");
+  // document.getElementById("permission-form").classList.add("drop-out");
+  slideAndVanish("permission-form")
+  // document.getElementById("main-screen").classList.add("d-none");
   setLoader();
   let pId = document.getElementById("pName").getAttribute("data-info")
   let pIdArr = pId.split(",")
@@ -132,7 +138,7 @@ socket.on("room-connected", (room, partner) => {
   user.room = room
   document.getElementById("loader").classList.add("d-none");
   document.getElementById("connect-form").classList.add("d-none");
-  document.getElementById("main-screen").classList.add("d-none");
+  // document.getElementById("main-screen").classList.add("d-none");
   document.getElementById("play-with").classList.remove("d-none")
   console.log(partner)
   // let userAlready = false;
@@ -488,8 +494,9 @@ function closeIntro(){
 }
 
 function playFriends(){
+  slideAndVanish("main-screen")
   document.getElementById("user-form").classList.remove("d-none");
-  document.getElementById("user-form").classList.add("drop-in");
+  // document.getElementById("user-form").classList.add("drop-in");
   document.getElementById("user").focus()
 }
 

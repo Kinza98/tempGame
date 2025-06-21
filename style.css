@@ -144,7 +144,7 @@ main{
   left: 0;
   bottom: 0;
   right: 0;
-  z-index: 100;
+  z-index: 96;
   background: var(--main-dark-grey);
 }
 
@@ -169,7 +169,8 @@ main{
 }
 
 .slide-out{
-  animation: slideUp 0.5s ease-out forwards;;
+  animation: slideOut 0.5s ease-out forwards;
+  z-index: 102 !important;
 }
 
 @keyframes slideOut {
@@ -226,26 +227,26 @@ main{
   bottom: 0;
   left: 0;
   right: 0;
-  max-width: 700px;
-  box-shadow: 1px 1px 13px #121212;
-  height: fit-content;
+  /* max-width: 700px; */
+  /* box-shadow: 1px 1px 13px #121212; */
+  /* height: fit-content; */
   min-height: 300px;
   margin: auto;
   background-color: var(--soft-purple);
-  border-radius: 50px;
-  z-index: 100;
+  /* border-radius: 50px; */
+  /* z-index: 100; */
 }
 
 #user-form{
-  z-index: 100;
+  z-index: 97;
 }
 
 #permission-form{
-  z-index: 101;
+  z-index: 99;
 }
 
 #connect-form{
-  z-index: 100;
+  z-index: 98;
 }
 
 #user-form form,
