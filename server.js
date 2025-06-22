@@ -53,7 +53,7 @@ io.on("connection", socket => {
     // console.log(me.partner)
     let findTurn = false
     me.partner.forEach((p, i) => {
-      let pEle = users.find( u => u.id == p.partnerId);
+      let pEle = users.find( u => u.id == p.id);
     //   console.log(pEle)
       if(pEle){
         if(pEle.turn === (me.turn + 1)){
@@ -71,7 +71,7 @@ io.on("connection", socket => {
       })
       if(!findTurn)
         me.partner.forEach((p, i) => {
-      let pEle = users.find( u => u.id == p.partnerId);
+      let pEle = users.find( u => u.id == p.id);
       if(pEle){
         if(pEle.turn === 0){
           findTurn = true
@@ -103,6 +103,10 @@ io.on("connection", socket => {
   })
 
   socket.on("askConnection", (uID, pId) => {
+    if(uID === pId){
+      socket.emit("error", "You can't connect to yourself.");
+      return
+    }
     let me = users.find(u => u.id === uID);
     let tempuser = [];
     let temppartner = users.find(u => u.id === pId);
@@ -146,15 +150,23 @@ io.on("connection", socket => {
 
 
     if(me && partner){
-      me.partner.push({
-        partnerId: partner.id,
-        partnerName: partner.name,
-      })
 
-      partner.partner.push({
-        partnerId: me.id,
-        partnerName: me.name,
-      })
+      const combined = Array.from(new Set([...me.partner, ... partner.partner]))
+
+      me.partner = [...combined];
+      partner.partner = [...combined]
+      if (!me.partner.some(p => p.id === partner.id))
+        me.partner.push({
+          id: partner.id,
+          name: partner.name,
+        })
+
+        if (!partner.partner.some(p => p.id === me.id)) 
+          partner.partner.push({
+            id: me.id,
+            name: me.name,
+          })
+
 
       me.room = roomName;
       partner.room = roomName;
@@ -168,11 +180,11 @@ io.on("connection", socket => {
         console.log(me, partner)
         me.turn = 0;
         me.partner.forEach((p, i) => {
-          let pEle = users.find( u => u.id == p.partnerId);
+          let pEle = users.find( u => u.id == p.id);
           if(pEle)
             pEle.turn = i+1;
         })
-        io.to(roomName).emit("partner-list", [me, ...me.partner.map(p => users.find(u => u.id === p.partnerId))]);
+        io.to(roomName).emit("partner-list", [me, ...me.partner.map(p => users.find(u => u.id === p.id))]);
       }else
       tempPartnerSocket.emit("error", "partner not found");
     })
@@ -185,15 +197,33 @@ io.on("connection", socket => {
 
       if (user) {
         // Tell partner their partner disconnected
-        const partnerSocket = io.sockets.sockets.get(user.partnerId);
-        if (partnerSocket) {
-          partnerSocket.emit("partnerDisconnected");
+        if(user.partner && user.partner.length > 0){
+          user.partner.forEach( p=> {
+            const partnerSocket = io.sockets.sockets.get(p.id);
+            if (partnerSocket) {
+              partnerSocket.emit("partnerDisconnected", p.name);
+            }
+            // Remove user from list
+            const index = users.indexOf(p);
+            if (index !== -1) users.splice(index, 1);
+          })
         }
+        
 
         // Remove user from list
         const index = users.indexOf(user);
         if (index !== -1) users.splice(index, 1);
       }
+  });
+
+  socket.on('permission-error', (msg, id) => {
+    console.log('permission-error', id)
+    // const partnerSocket = io.sockets.sockets.get(id);
+    // if (partnerSocket) {
+      io.to(id).emit('error', msg);
+    // } else {
+    //   console.log('Target socket not found for ID:', id);
+    // }
   });
 
 })
