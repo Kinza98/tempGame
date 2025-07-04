@@ -80,7 +80,7 @@ main{
 #history-details{
   position: fixed;
   top: 4rem;
-  z-index: 95;
+  z-index: 11111;
   right: 2rem;
   width: fit-content;
   padding: 20px;
@@ -93,7 +93,7 @@ main{
 
 #color-setting{
   position: fixed;
-  z-index: 111111;
+  z-index: 95;
   /* top: 0; */
   right: 0;
   margin: 20px;
