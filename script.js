@@ -414,7 +414,7 @@ function AISelect(){
       const selected = line.filter(id => document.querySelector(`#ai #${id}`).classList.contains('selected'))
       const unselected = line.filter(id => !document.querySelector(`#ai #${id}`).classList.contains('selected'))  
       if(selected.length == target && unselected.length == 5 - target){
-        showAlert("msg","Bot selected " + parseInt(unselected[0].match(/\d+$/)[0]), null) ;
+        showAlert("msg","Bot selected " + document.getElementById(unselected[0]).innerText, null) ;
         return unselected[0];
       }
     }
@@ -423,7 +423,7 @@ function AISelect(){
   let num;
   do {
     num = Math.floor(Math.random() * 25) + 1; // pick 1–25
-    let selectedNumber = "Bot selected " + num;
+    let selectedNumber = "Bot selected " + document.querySelector(`#ai-cell-${num}`).innerText;
     showAlert("msg",selectedNumber, null) ;
   } while (document.querySelector(`#ai-cell-${num}`).classList.contains('selected'));
   return `ai-cell-${num}`
