@@ -44,11 +44,87 @@ main{
 }
 
 #back-icon{
-  position: absolute;
+  position: fixed;
   top: 0;
   left: 0;
   margin: 20px;
   cursor: pointer;
+}
+
+#volume{
+  position: fixed;
+  bottom: 1em;
+  left: 1em;
+  width: 45px;
+  height: 45px;
+  background: var(--main-dark-grey);
+  font-size: 1.3rem;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 0px 0px 10px #3c3c3c;
+  margin-right: 2rem;
+  cursor: pointer;
+}
+
+#history{
+  position: fixed;
+  top: 1.5em;
+  right: 1.5em;
+  font-size: 1.3rem;
+  cursor: pointer;
+}
+
+#history-details{
+  position: fixed;
+  top: 4rem;
+  z-index: 11111;
+  right: 2rem;
+  width: fit-content;
+  padding: 20px;
+  background: var(--soft-purple);
+  border-radius: 5px;
+  box-shadow: 2px 2px 7px black;
+}
+
+#won, #lost {margin-top: 8px;}
+
+#color-setting{
+  position: fixed;
+  /* top: 0; */
+  right: 0;
+  margin: 20px;
+  cursor: pointer;
+  bottom: 0;
+  font-size: 2rem;
+  color: black;
+  background: var(--main-dark-grey);
+  border-radius: 50%;
+  box-shadow: 0px 0px 10px #1b1b1b;
+  padding: 2px 4px 2px 2px;
+  cursor: pointer;
+  text-decoration: none;
+}
+
+#color-setting:hover,
+#volume:hover{
+  box-shadow: 0px 0px 10px #000000;
+}
+
+#hurray{
+  position: fixed;
+  z-index: 1111;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  text-align: center;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background-color: #0000008c;
+  font-size: 5rem;
 }
 
 @keyframes popIn {
@@ -63,6 +139,11 @@ main{
   100% {
     transform: scale(1);
   }
+}
+
+.ai-flash {
+  background-color: #5e4662 !important;
+  transition: background-color 0.3s ease;
 }
 
 .pop-out{
@@ -174,11 +255,38 @@ main{
   transform: scale(1.1);
   background-color: #3c6172;
   color: white;
+  border: none;
 }
 
 .slide-out{
   animation: slideOut 0.5s ease-out forwards;
   z-index: 102 !important;
+}
+
+.pop-fade{
+  /* position: absolute;
+  top: 50%;
+  left: 50%;
+  font-size: 3rem; */
+  /* transform: translate(-50%, -50%); */
+  animation: popFade 1s ease-out forwards;
+  /* pointer-events: none;
+  z-index: 999; */
+}
+
+@keyframes popFade {
+  0% {
+    transform: scale(0.5);
+    opacity: 0;
+  }
+  40% {
+    transform: scale(1.2);
+    opacity: 1;
+  }
+  100% {
+    transform: scale(1);
+    opacity: 0;
+  }
 }
 
 @keyframes slideOut {
@@ -193,10 +301,10 @@ main{
 #alert-bar{
   top: 1em;
   position: fixed;
-  left: 20px;
-  right: 20px;
+  left: 3em;
+  right: 3em;
   padding: 5px 20px;
-  background-color: var(--main-purple);
+  background-color: #00000045;
   border-radius: 20px;
   box-shadow: 5px 3px 8px #00000040;
   display: flex;
@@ -225,17 +333,16 @@ main{
 }
 
 #play-with{
-  margin-bottom: 4px;
+  margin-bottom: 10px;
   color: var(--main-dark-grey);
 }
 
 #partner{
-  color: var(--main-dark-grey);
+  /* color: var(--main-dark-grey); */
   font-weight: bold;
 }
 
 #user-form,
-#permission-form,
 #connect-form{
   position: fixed;
   width: 100vw;
@@ -301,6 +408,18 @@ main{
   margin-bottom: 20px;
 }
 
+#no-btn{
+  background: transparent;
+  border-color: white;
+  margin-top: 1em;
+  border: none;
+  padding: 0;
+}
+
+#no-btn:hover{
+  text-decoration: underline;
+}
+
 #user-form button,
 #permission-form button,
 #disconnect-form button,
@@ -320,7 +439,36 @@ main{
   border: 1px solid white;
 }
 
-#disconnect-form{
+#message-box{
+  z-index: 1111;
+  background-color: var(--soft-purple) !important;
+  border-radius: 5px;
+  padding: 1em;
+  text-align: center;
+}
+
+#message-popup{
+  color: white;
+}
+
+#message-box div{
+    margin: auto;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+}
+
+#closeMessage{
+  position: absolute;
+  top: 0.5em;
+  right: 1em;
+  cursor: pointer;
+}
+
+#disconnect-form,
+#message-box,
+#permission-form{
   max-width: 500px;
   width: 90vw;
   height: fit-content;
@@ -332,6 +480,7 @@ main{
   bottom: 0;
   left: 0;
   right: 0;
+  box-shadow: 5px 5px 14px #3c3248;
 }
 
 
@@ -403,6 +552,21 @@ main{
   bottom: 0;
   right: 0;
 }
+
+/* .colr-button {
+  margin-top: 20px;
+  padding: 10px 20px;
+  border-radius: 5px;
+  background-color: var(--soft-purple);
+  color: white;
+  font-size: 18px;
+  box-shadow: none;
+  border: 1px solid var(--soft-purple);
+}
+
+.color-button:hover {
+  background-color: transparent;
+}o */
 
 #color-card .cards{
   width: 100%;
@@ -518,6 +682,7 @@ main{
 /* Dark backgroung */
 .dark-bg{
   background-color: var(--main-dark-grey);
+  /* background: linear-gradient(187deg, rgba(8, 49, 59, 1) 1%, rgba(74, 23, 83, 1) 50%, rgb(0 0 0) 96%); */
   color: white;  
 }
 
@@ -604,6 +769,10 @@ main{
   }
 }
 
+audio{
+  visibility: hidden;
+}
+
 /* main heading */
 h2{
   text-align: center;
@@ -637,11 +806,13 @@ h2{
   bottom: 0;
   left: 0;
   right: 0;
+  padding: 2em;
 }
 
 .result div{
   font-size: 40px;
   margin-bottom: 10px;
+  text-align: center;
 }
 
 .result button{
@@ -658,8 +829,9 @@ h2{
 
 .result button:hover{
   cursor: pointer;
-  color: #3c6172;
-  background-color: #fafafa;   
+  color: #fff;
+  border: white;
+  background-color: transparent;   
 }
 
 /* bingo cards */
@@ -712,8 +884,9 @@ h2{
   border: 1px solid #3c6172;
 }
 .greyBtn:hover:enabled{
-  color: #3c6172;
-  background-color: #f2f2f2;
+  color: #fff;
+  border-color: #fff;
+  background-color: transparent;
   cursor: pointer;
 }
 
@@ -749,7 +922,10 @@ button.selected{
 /* bingo text */
 #myBingo, #aiBingo{
   font-size: 18px;
-  margin-bottom: 10px;
+  margin-bottom: 5px;
+  /* display: flex;
+  justify-content: space-between;
+  padding: 0 27px; */
 }
 #myBingo span, #aiBingo span{
   display: inline-block;
@@ -770,6 +946,16 @@ span.set, span.set{
 }
 #aiBingo span.set{
   background-color: #773084;
+}
+
+#selectedNumber{
+  margin: auto;
+  background: #d9d9d9;
+  width: fit-content;
+  border-radius: 20px;
+  padding: 2px 10px;
+  color: var(--main-dark-grey);
+  margin-bottom: 9px;
 }
 /* responsive design */
 @media only screen and (max-width: 985px) {
@@ -799,7 +985,7 @@ span.set, span.set{
     font-size: 28px;
   }
   .result div {
-    font-size: 25px;
+    font-size: 23px;
   }
 
   #intro-card .card{
@@ -812,6 +998,25 @@ span.set, span.set{
     max-width: 90vw;
     padding: 30px 10px 10px 10px;
   }
+
+  #color-setting{
+    font-size: 1.5rem;
+  }
+
+  #volume{
+    width: 40px;
+    height: 40px;
+  }
+
+  #alert-bar{
+    font-size: 0.8rem;
+  }
+
+  /* #history{
+    top: 1em;
+    right: 1em;
+    font-size: 1rem;
+  } */
 }
 
 @media only screen and (max-width: 350px) {

@@ -18,6 +18,9 @@
     <link rel="stylesheet" href="style.css">
     </head>
   <body class="d-flex fa-center fj-center dark-bg font-main wv-100 hv-100">
+    <audio id="winSound" src="media/success-1.mp3" preload="auto"></audio>
+    <audio id="outSound" src="media/out.mp3" preload="auto"></audio>
+    <audio id="clickSound" src="media/click.mp3" preload="auto"></audio>
     <div class="welcome wv-100 hv-100">
       <div class="d-flex fj-center fa-center pacifico-regular h-100">
         <h2 class="drop-text ">
@@ -30,6 +33,7 @@
       </div>
     </div>
     <main id="main">
+      <section id="hurray" class="d-none">🎉</section>
       <section id="alert-bar" class="d-none">
         <div id="message">Heyyyyy</div>
         <div id="alert-close">x</div>
@@ -58,9 +62,19 @@
         </div>
       </section>
       <section id="main-screen" class="d-flex fj-center fa-center">
+        <i class="fa fa-history" aria-hidden="true" id="history" onclick="openHistory()"></i>
+        <div id="history-details" class="d-none">
+          <span id="total-game"></span>
+          <h4 id="won"> </h4>
+          <!-- <span id="won-total"></span> -->
+          <span id="won-from"></span>
+          <h4 id="lost"></h4>
+          <!-- <span id="lose-total"></span> -->
+          <span id="lose-from"></span>
+        </div>
         <div class="d-flex f-col">
           <h3 class="pacifico-regular t-center" >Let's start!</h3>
-          <button type="submit" class="greyBtn font-main" onclick="playAI()">Play with AI</button>
+          <button type="submit" class="greyBtn font-main" onclick="playAI()">Play vs Bot</button>
           <button type="submit" class="greyBtn font-main" onclick="playFriends()">Play with Friends</button>
           <a href="#">Never played Bingo before?</a>
         </div>
@@ -97,9 +111,17 @@
           <button type="button" onclick="endGame(event, 'no')">No</button>
         </form>
       </section>
+      <section id="message-box" class="d-none d-flex fj-center fa-center">
+        <span id="closeMessage">X</span>
+        <div>
+          <h4></h4>
+          <p id="message-popup"></p>
+        </div>
+      </section>
       <section id="color-card" class="d-flex fj-center fa-center d-none">
         <div class="cards d-flex f-row fj-center fa-center">
           <div id="color-close">X</div>
+          <!-- <input type="color" name="color" id="cardcolorpicker"> -->
           <div onclick="selectCardColor('darkred')" class="color-op darkred"></div>
           <div onclick="selectCardColor('teal')" class="color-op teal"></div>
           <div onclick="selectCardColor('ceruleanblue')" class="color-op ceruleanblue"></div>
@@ -140,9 +162,12 @@
       </section>
       <section class="d-flex fj-center" id="bingo-box">
         <i id="back-icon" class="fa fa-solid fa-arrow-left" onclick="goBack('bingo-box')"></i>
+        <a id="color-setting" onclick="ShowColorCard(event)">🎨</a>
+        <i class="fa fa-volume-up" id="volume" aria-hidden="true" onclick="volumeChange()"></i>
         <div class="bingo-card" id="my">
           <div id="myBingo" class="pacifico-regular"><span role="button" tabindex="0">B</span><span role="button" tabindex="0">I</span><span role="button" tabindex="0">N</span><span role="button" tabindex="0">G</span><span role="button" tabindex="0">O</span></div>
           <div id="play-with" class="d-none">You are playing with <span id="partner"></span></div>
+          <div id="selectedNumber"></div>
           <div class="row d-flex fj-center f-row fa-center">
             <button class="d-flex fj-center fa-center" role="button" tabindex="0" onclick="cellClick(event)" id="my-cell-1" >1</button>
             <button class="d-flex fj-center fa-center" role="button" tabindex="0" onclick="cellClick(event)" id="my-cell-2" >2</button>
@@ -179,7 +204,7 @@
             <button class="d-flex fj-center fa-center" role="button" tabindex="0" onclick="cellClick(event)" id="my-cell-25" >5</button>
           </div>
           <button id="numberOrder" class="greyBtn" type="button" onclick="generateNumbers('my')">Change Order</button>
-          <a href="#" onclick="ShowColorCard(event)">Choose Card Color</a>
+          <!-- <a href="#" class="color-button" onclick="ShowColorCard(event)">Choose Card Color 🎨</a> -->
         </div>
       </section>
     </main>
@@ -188,6 +213,7 @@
         <span id="result-data">WON</span>
       </div>
       <button onclick="gameRefresh()">PLAY AGAIN</button>
+      <button id="no-btn" onclick="gameEnd()">Go Back</button>
     </div>
         <script src="https://cdn.socket.io/4.7.2/socket.io.min.js"></script>
     <script src="script.js"></script>

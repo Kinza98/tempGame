@@ -2,6 +2,7 @@ const http = require('http');
 const fs = require('fs');
 const path = require('path');
 const { Server } = require('socket.io');
+let users = [];
 
 const PORT = process.env.PORT || 5000;
 
@@ -39,19 +40,18 @@ const io = new Server(server, {
 server.listen(PORT, () => {
   console.log(`Server listening on port ${PORT}`);
 });
-const users = [] // <- This is scoped inside `socket.on("connection")`
-
 
 io.on("connection", socket => {
   socket.on("number-selected", (room, val) => {
     const me = users.find(u => u.id === socket.id);
-    if(!me.playStart){
+    if(me && !me.playStart){
       me.playStart = true;
     }
     
     // me.turn = false;
     // console.log(me.partner)
     let findTurn = false
+    if (me && me.partner?.length)
     me.partner.forEach((p, i) => {
       let pEle = users.find( u => u.id == p.id);
     //   console.log(pEle)
@@ -69,7 +69,7 @@ io.on("connection", socket => {
         }
         }
       })
-      if(!findTurn)
+      if(!findTurn && me && me.partner?.length)
         me.partner.forEach((p, i) => {
       let pEle = users.find( u => u.id == p.id);
       if(pEle){
@@ -84,8 +84,8 @@ io.on("connection", socket => {
   })
 
 
-  socket.on("finished", (room, w) => {
-      socket.to(room).emit("gameEnd", w)
+  socket.on("finished", (room, w, name) => {
+      socket.to(room).emit("gameEnd", w, name)
   })
 
 
@@ -145,7 +145,10 @@ io.on("connection", socket => {
   socket.on("connectWith", (pId) => {
     const me = users.find(u => u.id === socket.id);
     const partner = users.find(u => u.id === pId);
-    if (!me || !partner) return;
+    if (!me || !partner){
+      socket.emit("error", "Error occurred while connecting");
+      return;
+    };
     let roomName = me.room || partner.room || `room-${me.id}-${partner.id}`;
 
 
@@ -173,47 +176,52 @@ io.on("connection", socket => {
 
       socket.join(roomName);
       let partnerSocket = io.sockets.sockets.get(pId);
-      if(partnerSocket)
+      if (partnerSocket) {
         partnerSocket.join(roomName);
         socket.to(roomName).emit("room-connected", roomName, me);
-        partnerSocket.to(roomName).emit("room-connected", roomName, partner)
-        console.log(me, partner)
+        partnerSocket.to(roomName).emit("room-connected", roomName, partner);
+      } else {
+        socket.emit("error", "Partner socket not found.");
+      }
+
         me.turn = 0;
+        if (me && me.partner?.length)
         me.partner.forEach((p, i) => {
           let pEle = users.find( u => u.id == p.id);
           if(pEle)
             pEle.turn = i+1;
         })
         io.to(roomName).emit("partner-list", [me, ...me.partner.map(p => users.find(u => u.id === p.id))]);
-      }else
-      tempPartnerSocket.emit("error", "partner not found");
+      }else if (tempPartnerSocket)
+        tempPartnerSocket.emit("error", "partner not found");
     })
 
     socket.on("disconnect", () => {
       console.log("disconnected")
       // Find the user who disconnected
-      const user = users.find(u => u.id === socket.id);
+      let user = users.find(u => u.id === socket.id);
       console.log(user)
 
       if (user) {
-        // Tell partner their partner disconnected
-        if(user.partner && user.partner.length > 0){
-          user.partner.forEach( p=> {
-            const partnerSocket = io.sockets.sockets.get(p.id);
-            if (partnerSocket) {
-              partnerSocket.emit("partnerDisconnected", p.name);
-            }
-            // Remove user from list
-            const index = users.indexOf(p);
-            if (index !== -1) users.splice(index, 1);
-          })
-        }
-        
+        const room = user.room;
+        if (room) {
+          const roomUsers = users.filter(u => u.room === room);
 
-        // Remove user from list
-        const index = users.indexOf(user);
-        if (index !== -1) users.splice(index, 1);
+          roomUsers.forEach(u => {
+            const socketToNotify = io.sockets.sockets.get(u.id);
+            if (socketToNotify && u.id !== socket.id) {
+              socketToNotify.emit("partnerDisconnected", user.name);
+            }
+          });
+
+          // Remove all room users from users[]
+          users = users.filter(u => u.room !== room);
+        } else {
+          // Fallback if user has no room, just remove them
+          users = users.filter(u => u.id !== socket.id);
+        }
       }
+
   });
 
   socket.on('permission-error', (msg, id) => {
