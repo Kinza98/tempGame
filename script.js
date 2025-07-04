@@ -1,4 +1,4 @@
-const socket = io('');
+const socket = io('https://77337a44-1cd4-4f21-8a22-b7143fbf5ef8-00-23wzsy35jfxha.sisko.replit.dev:5000/');
 let aiGame = false;
 let gameReset = false;
 let clickTrigger = false;
