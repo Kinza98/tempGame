@@ -1,4 +1,4 @@
-const socket = io('https://77337a44-1cd4-4f21-8a22-b7143fbf5ef8-00-23wzsy35jfxha.sisko.replit.dev:5000/');
+const socket = io('');
 let aiGame = false;
 let gameReset = false;
 let clickTrigger = false;
@@ -335,7 +335,7 @@ function gameRefresh(){
   document.getElementById('numberOrder').disabled = false;
   document.getElementById("user").value = ''
   document.getElementById('id').value = '';
-  document.getElementById("selectedNumber").innerText = '';
+  // document.getElementById("selectedNumber").innerText = '';
   if(gameReset){
     document.getElementById("play-with").classList.add("d-none")
     document.getElementById("main-screen").classList.remove("d-none")
@@ -414,7 +414,7 @@ function AISelect(){
       const selected = line.filter(id => document.querySelector(`#ai #${id}`).classList.contains('selected'))
       const unselected = line.filter(id => !document.querySelector(`#ai #${id}`).classList.contains('selected'))  
       if(selected.length == target && unselected.length == 5 - target){
-        document.getElementById("selectedNumber").innerText = "Bot selected " + parseInt(unselected[0].match(/\d+$/)[0]);
+        showAlert("msg","Bot selected " + parseInt(unselected[0].match(/\d+$/)[0]), null) ;
         return unselected[0];
       }
     }
@@ -424,7 +424,7 @@ function AISelect(){
   do {
     num = Math.floor(Math.random() * 25) + 1; // pick 1–25
     let selectedNumber = "Bot selected " + num;
-    document.getElementById("selectedNumber").innerText = selectedNumber;
+    showAlert("msg",selectedNumber, null) ;
   } while (document.querySelector(`#ai-cell-${num}`).classList.contains('selected'));
   return `ai-cell-${num}`
 }
@@ -438,7 +438,7 @@ function cellClick(e){
 
   if(aiGame){
     let selectedNumber = "You selected " + val;
-    document.getElementById("selectedNumber").innerText = selectedNumber;
+    // document.getElementById("selectedNumber").innerText = selectedNumber;
   }
 
 
@@ -579,7 +579,7 @@ function closeIntro(){
 }
 
 function playFriends(){
-  document.getElementById("selectedNumber").style.padding = 0;
+  // document.getElementById("selectedNumber").style.padding = 0;
   slideAndVanish("main-screen")
   document.getElementById("user-form").classList.remove("d-none");
   const ai = document.getElementById("ai") ? document.getElementById("ai") : null ;
@@ -590,8 +590,8 @@ function playFriends(){
 }
 
 function playAI(){
-  document.getElementById("selectedNumber").style.padding = "2px 10px";
-  document.getElementById("selectedNumber").innerText = "Choose a Number"
+  // document.getElementById("selectedNumber").style.padding = "2px 10px";
+  // document.getElementById("selectedNumber").innerText = "Choose a Number"
   document.getElementById("bingo-box").classList.remove("d-none")
   slideAndVanish("main-screen");
   if(!document.getElementById("ai")){
@@ -793,7 +793,7 @@ function selectCardColor(color){
       }
       darkerShade = `hsl(${h}, ${s}%, ${l}%)`;
       document.getElementById("numberOrder").style.backgroundColor = darkerShade;
-      document.getElementById("selectedNumber").style.color = darkerShade;
+      // document.getElementById("selectedNumber").style.color = darkerShade;
       document.getElementById("numberOrder").style.borderColor = darkerShade;
       document.getElementById("play-with").style.color = darkerShade;
 

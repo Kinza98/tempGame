@@ -922,7 +922,7 @@ button.selected{
 /* bingo text */
 #myBingo, #aiBingo{
   font-size: 18px;
-  margin-bottom: 5px;
+  margin-bottom: 10px;
   /* display: flex;
   justify-content: space-between;
   padding: 0 27px; */
@@ -1016,6 +1016,18 @@ span.set, span.set{
     top: 1em;
     right: 1em;
     font-size: 1rem;
+  } */
+  /* #aiBingo{
+    margin-bottom: 10px;
+  }
+
+  #myBingo{
+    margin-bottom: 5px;
+  }
+   */
+  /* #selectedNumber{
+    font-size: 13px;
+    margin-bottom: 13px;
   } */
 }
 
