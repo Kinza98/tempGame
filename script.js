@@ -1,4 +1,4 @@
-const socket = io('https://77337a44-1cd4-4f21-8a22-b7143fbf5ef8-00-23wzsy35jfxha.sisko.replit.dev:5000');
+const socket = io('https://77337a44-1cd4-4f21-8a22-b7143fbf5ef8-00-23wzsy35jfxha.sisko.replit.dev:5000/');
 let aiGame = false;
 let gameReset = false;
 let clickTrigger = false;
@@ -9,6 +9,7 @@ let hurrayInterval = null;
 let noHurray = false;
 let gameOver = false;
 let soundOn = true;
+let serverUp =true;
 
 const user = {
   id: null,
@@ -19,10 +20,15 @@ const user = {
 let darkerShade = '#2b5c74';
 socket.on("connect", () => {
   console.log("✅ Connected to server!");
+  serverUp = true;
 });
 
 socket.on("disconnect", () => {
   console.log("❌ Disconnected from server");
+});
+
+socket.on("connect_error", (err) => {
+  serverUp = false;
 });
 
 socket.on("error", (m) => {
@@ -84,7 +90,7 @@ function selectNumber(number){
   }
 
 function registerUser(event){
-    event.preventDefault()
+    event.preventDefault();
     user.name = document.getElementById("user").value;
     if (!socket.connected) socket.connect();
     socket.emit("register", user.name);
@@ -194,11 +200,11 @@ socket.on("partnerDisconnected", (pName) => {
   gameReset = true;
   document.querySelector('.result').classList.remove('d-none');
   document.getElementById("alert-bar").classList.add("d-none");
-  document.querySelector('.result #result-data').innerText = `Oops! ${pName} has left the game`;
   clearTimeout(loaderTimer)
   clearTimeout(decisionTimer);
   clearTimeout(waitingTimer)
-  document.getElementById("message-box").classList.add("d-none")
+  document.querySelector('.result #result-data').innerText = `Oops! ${pName} has left the game`;
+    document.getElementById("message-box").classList.add("d-none")
   socket.disconnect();
 });
 
@@ -264,6 +270,7 @@ function finishGame(e){
   clearTimeout(waitingTimer);
   clearTimeout(decisionTimer);
   document.getElementById("message-box").classList.add("d-none");
+  document.getElementById("alert-bar").classList.add("d-none");
   if (gameOver) return; // prevent multiple triggers
   gameOver = true;
   document.querySelector('.result').classList.remove('d-none');
@@ -282,10 +289,11 @@ function finishGame(e){
         document.getElementById('outSound').currentTime = 0;
         document.getElementById('outSound').play();
       }
+      clearTimeout(loaderTimer)
+      clearTimeout(decisionTimer);
+      clearTimeout(waitingTimer)
     document.querySelector('.result #result-data').innerText = "OOPS, Better luck next time! 🎲";
-    clearTimeout(loaderTimer)
-    clearTimeout(decisionTimer);
-    clearTimeout(waitingTimer)
+    
     document.getElementById("message-box").classList.add("d-none")
   }
 }
@@ -579,14 +587,16 @@ function closeIntro(){
 }
 
 function playFriends(){
-  // document.getElementById("selectedNumber").style.padding = 0;
-  slideAndVanish("main-screen")
-  document.getElementById("user-form").classList.remove("d-none");
-  const ai = document.getElementById("ai") ? document.getElementById("ai") : null ;
-    if(ai) ai.remove();
-    aiGame = false;
-  // document.getElementById("user-form").classList.add("drop-in");
-  document.getElementById("user").focus()
+  if(serverUp){
+    slideAndVanish("main-screen")
+    document.getElementById("user-form").classList.remove("d-none");
+    const ai = document.getElementById("ai") ? document.getElementById("ai") : null ;
+      if(ai) ai.remove();
+      aiGame = false;
+    document.getElementById("user").focus()
+  }else{
+    showAlert("error", "Unable to connect to the server. Please contact the author to enable Multi-Player feature", 2000);
+  }
 }
 
 function playAI(){

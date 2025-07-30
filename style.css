@@ -809,6 +809,7 @@ h2{
   left: 0;
   right: 0;
   padding: 2em;
+  z-index: 100;
 }
 
 .result div{
