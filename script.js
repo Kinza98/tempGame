@@ -456,10 +456,10 @@ function cellClick(e){
     numberSelectingDecision();
     return;
   }else if(soundOn){
-    const clickSound = document.getElementById("clickSound");
-    clickSound.playbackRate = 2.0; // 2x speed
-    clickSound.currentTime = 0;
-    clickSound.play();
+    // const clickSound = document.getElementById("clickSound");
+    // clickSound.playbackRate = 2.0; // 2x speed
+    // clickSound.currentTime = 0;
+    // clickSound.play();
   }
   // mark selected number
   e.target.classList.add('selected');
